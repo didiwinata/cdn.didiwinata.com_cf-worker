@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "cf-worker-cdn",
+	"name": "cdn-didiwinata-worker",
 	"main": "src/index.js",
 	"compatibility_date": "2025-04-03",
 	"observability": {
