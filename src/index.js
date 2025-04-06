@@ -44,23 +44,30 @@ export default {
       });
     } catch (error) {
       console.error("Image fetch failed:", error.message);
-      let fallbackURL = `https://ik.imagekit.io/zxn2e1hij${imagePath}`;
-
-      let transformations = [];
-      if (width) {
-        transformations.push(`w-${width}`);
-      }
-      if (height) {
-        transformations.push(`h-${height}`);
-      }
-
-      if (transformations.length > 0) {
-        fallbackURL += `?tr=${transformations.join(",")}`;
-      }
       
-      console.log(`Redirecting to fallback: ${fallbackURL}`);
+      const pattern = /^\/images\/\d+\/[\w\-]+\.(webp|jpg|jpeg|png|gif)$/i;
       
-      return Response.redirect(fallbackURL, 302);
+      if (pattern.test(url.pathname)) {
+        let fallbackURL = `https://ik.imagekit.io/zxn2e1hij${imagePath}`;
+
+        let transformations = [];
+        if (width) {
+          transformations.push(`w-${width}`);
+        }
+        if (height) {
+          transformations.push(`h-${height}`);
+        }
+
+        if (transformations.length > 0) {
+          fallbackURL += `?tr=${transformations.join(",")}`;
+        }
+        
+        console.log(`Redirecting to fallback: ${fallbackURL}`);
+        
+        return Response.redirect(fallbackURL, 302);
+      } else {
+        return Response.redirect('https://cdn.didiwinata.com', 302);
+      }
     }
   },
 };
