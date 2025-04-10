@@ -9,7 +9,18 @@
 	"compatibility_date": "2025-04-03",
 	"observability": {
 		"enabled": true
-	}
+	},
+  "env": {
+    "production": {
+      "name": "cdn-didiwinata-worker",
+      "vars": {
+        "IMAGE_DOMAIN": "https://cdn.didiwinata.com",
+        "ROOT_FAVICON": "https://didiwinata.com/favicon.ico",
+        "MAIN_IMAGES_URL": "https://api.dget.top/didiwinata",
+        "FALLBACK_IMAGE_URL": "https://ik.imagekit.io/zxn2e1hij"
+      }
+    }
+  }
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

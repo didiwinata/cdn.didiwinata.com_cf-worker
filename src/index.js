@@ -11,9 +11,9 @@ export default {
       format: 'webp'
     };
 
-    const hiddenImageOrigin = "https://api.dget.top/didiwinata";
+    const mainImgSrc = env.MAIN_IMAGES_URL;
     const imagePath = url.pathname;
-    const imageURL = hiddenImageOrigin + imagePath;
+    const imageURL = mainImgSrc + imagePath;
 
     try {
       if (url.pathname === "/") {
@@ -21,14 +21,14 @@ export default {
       }
       
       if (url.pathname === "/favicon.ico") {
-        return fetch("https://didiwinata.com/favicon.ico", {
+        return fetch(env.ROOT_FAVICON, {
           headers: { "Cache-Control": "max-age=31536000, immutable" },
         });
       }
 
       const response = await fetch(imageURL, {
         headers: {
-          'Referer': 'https://cdn.didiwinata.com',
+          'Referer': env.IMAGE_DOMAIN,
           'User-Agent': 'CF-Transformations'
         },
         cf: { image: resizingOptions } });
@@ -53,7 +53,7 @@ export default {
       const pattern = /^\/images\/\d+\/[\w\-]+\.(webp|jpg|jpeg|png|gif)$/i;
       
       if (pattern.test(url.pathname)) {
-        let fallbackURL = `https://ik.imagekit.io/zxn2e1hij${imagePath}`;
+        let fallbackURL = `${env.FALLBACK_IMAGE_URL}${imagePath}`;
 
         let transformations = [];
         if (width) {
@@ -71,7 +71,7 @@ export default {
         
         return Response.redirect(fallbackURL, 302);
       } else {
-        return Response.redirect('https://cdn.didiwinata.com', 302);
+        return Response.redirect(env.IMAGE_DOMAIN, 302);
       }
     }
   },
