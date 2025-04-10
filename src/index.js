@@ -11,9 +11,9 @@ export default {
       format: 'webp'
     };
 
-    const mainImgSrc = env.MAIN_IMAGES_URL;
-    const imagePath = url.pathname;
-    const imageURL = mainImgSrc + imagePath;
+    const mainImgSrc = env.MAIN_IMAGES_URL; // Images source path eg. https://imagesource.com
+    const imagePath = url.pathname; // Path from root domain used at public,  https://images.example.com/<rest of images path>, eg. /image/picture.jpg 
+    const imageURL = mainImgSrc + imagePath; // Eg. https://imagesource.com/image/picture.jpg
 
     try {
       if (url.pathname === "/") {
@@ -27,7 +27,7 @@ export default {
       }
 
       const response = await fetch(imageURL, {
-        headers: {
+        headers: { // For check at images source backend
           'Referer': env.IMAGE_DOMAIN,
           'User-Agent': 'CF-Transformations'
         },
@@ -39,7 +39,7 @@ export default {
 
       const newHeaders = new Headers(response.headers);
 
-      newHeaders.set("Cache-Control", "max-age=31536000, immutable");
+      newHeaders.set("Cache-Control", "max-age=31536000, immutable"); // Store on browser for 1 years
       newHeaders.set("Content-Security-Policy", "upgrade-insecure-requests");
 
       return new Response(response.body, {
@@ -55,7 +55,7 @@ export default {
       if (pattern.test(url.pathname)) {
         let fallbackURL = `${env.FALLBACK_IMAGE_URL}${imagePath}`;
 
-        let transformations = [];
+        let transformations = []; // Reconstruct image size query params Cloudflare style to ImageKit style, eg. ?width=400 to ?tr=w-400
         if (width) {
           transformations.push(`w-${width}`);
         }
@@ -69,7 +69,7 @@ export default {
         
         console.log(`Redirecting to fallback: ${fallbackURL}`);
         
-        return Response.redirect(fallbackURL, 302);
+        return Response.redirect(fallbackURL, 302); // Do fallback to ImageKit if Cloudflare transformations fail
       } else {
         return Response.redirect(env.IMAGE_DOMAIN, 302);
       }
