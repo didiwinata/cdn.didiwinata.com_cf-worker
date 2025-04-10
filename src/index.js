@@ -26,7 +26,12 @@ export default {
         });
       }
 
-      const response = await fetch(imageURL, { cf: { image: resizingOptions } });
+      const response = await fetch(imageURL, {
+        headers: {
+          'Referer': 'https://cdn.didiwinata.com',
+          'User-Agent': 'CF-Transformations'
+        },
+        cf: { image: resizingOptions } });
 
       if (!response.ok) {
         throw new Error('Image fetch failed');
