@@ -22,7 +22,7 @@ export default {
       
       if (url.pathname === "/favicon.ico") {
         return fetch(env.ROOT_FAVICON, {
-          headers: { "Cache-Control": "public, max-age=31536000, immutable", },
+          headers: { "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable", },
         });
       }
 
@@ -39,7 +39,7 @@ export default {
 
       const newHeaders = new Headers(response.headers);
 
-      newHeaders.set("Cache-Control", "public, max-age=31536000, s-maxage=86400, must-revalidate",); // Store on browser for 1 years
+      newHeaders.set("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable",); // Store on browser for 1 years
       newHeaders.set("Content-Security-Policy", "upgrade-insecure-requests");
 
       return new Response(response.body, {
