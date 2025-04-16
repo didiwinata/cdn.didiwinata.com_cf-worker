@@ -21,9 +21,7 @@ export default {
       }
       
       if (url.pathname === "/favicon.ico") {
-        return fetch(env.ROOT_FAVICON, {
-          headers: { "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable" },
-        });
+        return fetch(env.ROOT_FAVICON);
       }
 
       const response = await fetch(imageURL, {
