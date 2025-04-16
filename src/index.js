@@ -54,11 +54,12 @@ export default {
       
       if (pattern.test(url.pathname)) {
         let fallbackURL = `${env.FALLBACK_IMAGE_URL}${imagePath}`;
-
         let transformations = []; // Reconstruct image size query params Cloudflare style to ImageKit style, eg. ?width=400 to ?tr=w-400
+        
         if (width) {
           transformations.push(`w-${width}`);
         }
+        
         if (height) {
           transformations.push(`h-${height}`);
         }
@@ -74,5 +75,5 @@ export default {
         return Response.redirect(env.IMAGE_DOMAIN, 302);
       }
     }
-  },
+  }
 };
