@@ -14,10 +14,11 @@ export default {
     const mainImgSrc = env.MAIN_IMAGES_URL; // Images source path eg. https://imagesource.com
     const imagePath = url.pathname; // Path from root domain used at public,  https://images.example.com/<rest of images path>, eg. /image/picture.jpg 
     const imageURL = mainImgSrc + imagePath; // Eg. https://imagesource.com/image/picture.jpg
-
+    const user_ip = request.headers.get('CF-Connecting-IP');
+    
     try {
       if (url.pathname === "/") {
-        return new Response(`status OK`);
+        return new Response(`Status: OK, IP Address: ${user_ip}`);
       }
       
       if (url.pathname === "/favicon.ico") {
